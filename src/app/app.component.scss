@@ -1,0 +1,25 @@
+.app-container {
+    height: 100vh;
+    width: 100vw;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.spot-prices-container {
+    display: flex;
+    flex-direction: row;
+    margin-top: 2rem;
+    width: 20%;
+    justify-content: space-between;
+    .item {
+        padding: 1rem;
+        border: 1px solid var(--text-color);
+        border-radius: 10px;
+        height: fit-content;
+        min-width: 10rem;
+        text-align: center;
+    }
+}
