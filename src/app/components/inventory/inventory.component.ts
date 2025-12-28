@@ -45,7 +45,6 @@ export class InventoryComponent implements OnInit {
 
 	submitNewPosition(): void {
 		if (this.form.valid) {
-			console.log('Submitting new position:', this.form.value);
 			this.inventoryStoreService.addPosition(this.form.value).subscribe(() => {
 				this.form.reset();
 				if (this.modal) {
