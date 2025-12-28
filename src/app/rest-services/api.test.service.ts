@@ -1,13 +1,13 @@
 import { Observable } from "rxjs";
-import { SpotPrices } from "../models/spot-prices";
-import { Inject, Injectable } from "@angular/core";
+import { ApiSpotPrices } from "../models/api-spot-prices";
+import { Injectable } from "@angular/core";
 
 @Injectable({
     providedIn: 'root'
 })
 export default class ApiTestService {
     
-    public getMetalSpotPriceTestData(): Observable<SpotPrices> {
+    public getMetalSpotPriceTestData(): Observable<ApiSpotPrices> {
         const testData = {
             "status": "success",
             "currency": "USD",
@@ -224,10 +224,9 @@ export default class ApiTestService {
             }
         };
         
-        return new Observable<SpotPrices>(subscriber => {
+        return new Observable<ApiSpotPrices>(subscriber => {
             const randomOffset = Math.random() * 10;
-            console.log(randomOffset);
-            const spotPrices: SpotPrices = {
+            const spotPrices: ApiSpotPrices = {
                 gold: testData.metals.gold + randomOffset,
                 silver: testData.metals.silver + randomOffset
             };

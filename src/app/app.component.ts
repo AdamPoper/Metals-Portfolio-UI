@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-import { ApiService } from './service/api.service';
 import { OnInit } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { SpotPrices } from './models/spot-prices';
-import ApiTestService from './service/api.test.service';
+import { PricesStoreService } from './stores/services/prices.store.service';
+import { PricesQuery } from './queries/prices.query';
 
 @Component({
 	selector: 'app-root',
@@ -12,21 +10,17 @@ import ApiTestService from './service/api.test.service';
 })
 export class AppComponent implements OnInit {
 
-	metalSpotPrices$: Observable<SpotPrices> = this.apiTestService.getMetalSpotPriceTestData();
+	readonly goldPrice$ = this.pricesQuery.goldPrice$;
+	readonly silverPrice$ = this.pricesQuery.silverPrice$;
 
-	constructor(private apiService: ApiService,
-				private apiTestService: ApiTestService
+	constructor(private pricesStoreService: PricesStoreService,
+		        private pricesQuery: PricesQuery
 	) {}
 
 	ngOnInit() {
-		// this.apiService.getMetalSpotPrice().subscribe((data) => {
-		// 	console.log('Metals Spot Price:', data);
-		// });
-		// this.apiTestService.getMetalSpotPriceTestData().subscribe((data) => {
-		// 	console.log('Test Metals Spot Price:', data);
-		// });
+		this.pricesStoreService.fetchCurrentPrices().subscribe();
 		setInterval(() => {
-			this.metalSpotPrices$ = this.apiTestService.getMetalSpotPriceTestData();
-		}, 5000)
+			this.pricesStoreService.fetchCurrentPrices().subscribe();
+		}, 60000);
 	}
 }
