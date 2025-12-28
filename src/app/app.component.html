@@ -1,18 +1,21 @@
 <ng-container>
   	<div class="app-container">
-		<div class="spot-prices-container" *ngIf="metalSpotPrices$ | async as metalSpotPrices">
-			<div class="item">
+		<div class="spot-prices-container">
+			<div class="item" *ngIf="goldPrice$ | async as goldPrice">
 				<div class="item-child">
 					<h2>Gold</h2>
-					<p>${{ metalSpotPrices.gold | number:'1.2-2' }}/oz</p>
+					<p>${{ goldPrice | number:'1.2-2' }}/oz</p>
 				</div>
 			</div>
-			<div class="item">
+			<div class="item" *ngIf="silverPrice$ | async as silverPrice">
 				<div class="item-child">
 					<h2>Silver</h2>
-					<p>${{ metalSpotPrices.silver | number:'1.2-2' }}/oz</p>
+					<p>${{ silverPrice | number:'1.2-2' }}/oz</p>
 				</div>
 			</div>
+		</div>
+		<div>
+			<app-inventory></app-inventory>
 		</div>
   	</div>
 </ng-container>
