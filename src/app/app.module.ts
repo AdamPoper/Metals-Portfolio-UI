@@ -7,12 +7,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { InventoryComponent } from './components/inventory/inventory.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PerformanceComponent } from './components/performance/performance.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     InventoryComponent,
-    ModalComponent
+    ModalComponent,
+    PerformanceComponent
   ],
   imports: [
     BrowserModule,

@@ -7,7 +7,7 @@ import { Injectable } from "@angular/core";
 })
 export default class ApiTestService {
     
-    public getMetalSpotPriceTestData(): Observable<ApiSpotPrices> {
+    public getMetalSpotPrice(): Observable<ApiSpotPrices> {
         const testData = {
             "status": "success",
             "currency": "USD",
