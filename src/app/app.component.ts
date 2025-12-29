@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { PricesStoreService } from './stores/services/prices.store.service';
 import { PricesQuery } from './queries/prices.query';
+import { PortfolioTimeSeriesStoreService } from './stores/services/portfolio-time-series.store.service';
 
 @Component({
 	selector: 'app-root',
@@ -14,13 +15,19 @@ export class AppComponent implements OnInit {
 	readonly silverPrice$ = this.pricesQuery.silverPrice$;
 
 	constructor(private pricesStoreService: PricesStoreService,
-		        private pricesQuery: PricesQuery
+		        private pricesQuery: PricesQuery,
+				private timeSeriesStoreService: PortfolioTimeSeriesStoreService
 	) {}
 
 	ngOnInit() {
 		this.pricesStoreService.fetchCurrentPrices().subscribe();
+
 		setInterval(() => {
 			this.pricesStoreService.fetchCurrentPrices().subscribe();
 		}, 60000);
+
+		setInterval(() => {
+			this.timeSeriesStoreService.updateTimeSeries().subscribe();
+		}, 24 * 60 * 60 * 1000); // only run this once per day
 	}
 }
