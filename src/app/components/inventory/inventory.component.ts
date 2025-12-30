@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { PositionQuery } from 'src/app/queries/position.query';
 import { ModalComponent } from '../modal/modal.component';
-import { InventoryStoreService } from 'src/app/stores/services/position.store.service';
+import { PositionStoreService } from 'src/app/stores/services/position.store.service';
 import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
@@ -22,18 +22,18 @@ export class InventoryComponent implements OnInit {
 		acquired: ['', Validators.required]
 	});
 
-	gainLossData$ = this.inventoryStoreService.calculateGainLoss$();
+	gainLossData$ = this.positionStoreService.calculateGainLoss$();
 
-	constructor(private inventoryStoreService: InventoryStoreService,
+	constructor(private positionStoreService: PositionStoreService,
 				private positionQuery: PositionQuery,
 				private formBuilder: FormBuilder,
 	) { }
 
 	ngOnInit(): void {
-		this.inventoryStoreService.getAllPositions().subscribe();
+		this.positionStoreService.getAllPositions().subscribe();
 
 		setInterval(() => {
-			this.gainLossData$ = this.inventoryStoreService.calculateGainLoss$();
+			this.gainLossData$ = this.positionStoreService.calculateGainLoss$();
 		}, 60000);
 	}
 
@@ -45,7 +45,7 @@ export class InventoryComponent implements OnInit {
 
 	submitNewPosition(): void {
 		if (this.form.valid) {
-			this.inventoryStoreService.addPosition(this.form.value).subscribe(() => {
+			this.positionStoreService.addPosition(this.form.value).subscribe(() => {
 				this.form.reset();
 				if (this.modal) {
 					this.modal.closeModal();
