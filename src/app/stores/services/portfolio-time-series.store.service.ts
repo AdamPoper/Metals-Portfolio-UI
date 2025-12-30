@@ -1,48 +1,42 @@
-import { Observable, of, tap } from "rxjs";
+import { map, merge, mergeMap, Observable, of, take, tap } from "rxjs";
 import { Snapshot } from "src/app/models/snapshot";
 import { TimeSeriesService } from "src/app/rest-services/time-series.service";
 import { PortfolioTimeSeriesStore } from "../portfolio-time-series.store";
-import { PricesQuery } from "src/app/queries/prices.query";
-import { PositionQuery } from "src/app/queries/position.query";
-import { MetalOptions } from "src/app/models/metal-options";
 import { PortfolioTimeSeriesQuery } from "src/app/queries/time-series.query";
 import { Injectable } from "@angular/core";
+import { PositionStoreService } from "./position.store.service";
+import { setLoading } from "@datorama/akita";
 
 @Injectable({providedIn: 'root'})
 export class PortfolioTimeSeriesStoreService {
 
     constructor(private timeSeriesService: TimeSeriesService,
                 private timeSeriesStore: PortfolioTimeSeriesStore,
-                private pricesQuery: PricesQuery,
-                private positionQuery: PositionQuery,
-                private timeSeriesQuery: PortfolioTimeSeriesQuery
+                private timeSeriesQuery: PortfolioTimeSeriesQuery,
+                private positionStoreService: PositionStoreService
     ) {}
 
     public fetchAllTimeSeriesData(): Observable<Snapshot[]> {
         return this.timeSeriesService.fetchTimeSeriesData()
-            .pipe(tap((snapshots: Snapshot[]) => this.timeSeriesStore.update({ snapshots })));
+            .pipe(setLoading(this.timeSeriesStore))
+            .pipe(tap((snapshots: Snapshot[]) => {
+                this.timeSeriesStore.update({ snapshots });
+                this.timeSeriesStore.setLoading(false);
+            }));
     }
 
     public updateTimeSeries(): Observable<any> {
-        const allPositions = this.positionQuery.getPositions();
-        const goldPrice = this.pricesQuery.getGoldPrice();
-        const silverPrice = this.pricesQuery.getSilverPrice();
-        let value = 0;
-        for (const position of allPositions) {
-            if (position.type === MetalOptions.GOLD) {
-                value += position.quantity * goldPrice;
-            } else if (position.type === MetalOptions.SILVER) {
-                value += position.quantity * silverPrice;
-            }
-        }
-        const date = this.getEasternDateString();
-        const snapshot = {
-            date,
-            value
-        } as Snapshot;
-
-        return this.timeSeriesService.addSnapshotToTimeSeries(snapshot)
-            .pipe(tap((newSnapShot: Snapshot) => {
+        return this.positionStoreService.getCurrentPortfolioValue$()
+            .pipe(take(1))
+            .pipe(map((value: number) => {
+                const date = this.getEasternDateString();
+                return {
+                    date,
+                    value
+                } as Snapshot;
+            })).pipe(mergeMap((snapshot: Snapshot) => 
+                this.timeSeriesService.addSnapshotToTimeSeries(snapshot)
+            )).pipe(tap((newSnapShot: Snapshot) => {
                 const allSnapShots = this.timeSeriesQuery.getAllTimeSeriesData();
                 this.timeSeriesStore.update({
                     snapshots: [

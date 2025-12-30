@@ -151,9 +151,9 @@ form {
 }
 
 .positive {
-    color: rgb(0, 100, 0);
+    color: var(--positive-green);
 }
 
 .negative {
-    color: rgb(185, 0, 0);
+    color: var(--negative-red);
 }

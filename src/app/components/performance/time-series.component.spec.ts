@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PerformanceComponent } from './performance.component';
+import { TimeSeriesComponent } from './time-series.component';
 
-describe('PerformanceComponent', () => {
-  let component: PerformanceComponent;
-  let fixture: ComponentFixture<PerformanceComponent>;
+describe('TimeSeriesComponent', () => {
+  let component: TimeSeriesComponent;
+  let fixture: ComponentFixture<TimeSeriesComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PerformanceComponent ]
+      declarations: [ TimeSeriesComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(PerformanceComponent);
+    fixture = TestBed.createComponent(TimeSeriesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

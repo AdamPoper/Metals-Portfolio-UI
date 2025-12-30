@@ -7,14 +7,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { InventoryComponent } from './components/inventory/inventory.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PerformanceComponent } from './components/performance/performance.component';
+import { TimeSeriesComponent } from './components/performance/time-series.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     InventoryComponent,
     ModalComponent,
-    PerformanceComponent
+    TimeSeriesComponent
   ],
   imports: [
     BrowserModule,

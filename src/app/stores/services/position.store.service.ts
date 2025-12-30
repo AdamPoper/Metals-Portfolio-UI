@@ -5,13 +5,13 @@ import { combineLatest, map, Observable, tap } from "rxjs";
 import { Position } from "src/app/models/position";
 import { PositionQuery } from "src/app/queries/position.query";
 import { PricesQuery } from "src/app/queries/prices.query";
+import { MetalOptions } from "src/app/models/metal-options";
 
 @Injectable({ providedIn: 'root' })
-export class InventoryStoreService {
+export class PositionStoreService {
     constructor(private inventoryService: InventoryService,
                 private positionStore: PositionStore,
                 private positionQuery: PositionQuery,
-
                 private pricesQuery: PricesQuery
     ) {}
 
@@ -51,5 +51,24 @@ export class InventoryStoreService {
 
             return gainLossData;
         }));
+    }
+
+    public getCurrentPortfolioValue$(): Observable<number> {
+        return combineLatest([
+            this.positionQuery.positions$,
+            this.pricesQuery.goldPrice$,
+            this.pricesQuery.silverPrice$
+        ]).pipe(
+            map(([positions, goldPrice, silverPrice]) =>
+                positions.reduce((total, position) => {
+                    const price =
+                        position.type === MetalOptions.GOLD
+                            ? goldPrice
+                            : silverPrice;
+
+                    return total + position.quantity * price;
+                }, 0)
+            )
+        );
     }
 }

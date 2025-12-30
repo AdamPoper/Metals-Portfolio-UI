@@ -1,6 +1,6 @@
 .app-container {
-    height: 100vh;
-    width: 100vw;
+    min-height: 100vh;
+    width: 100%;
     background-color: var(--background-color);
     color: var(--text-color);
     display: flex;
@@ -23,6 +23,10 @@
         min-width: 10rem;
         text-align: center;
     }
+}
+
+.time-series {
+    width: 100%;
 }
 
 @media screen and (max-width: 2048px) {
