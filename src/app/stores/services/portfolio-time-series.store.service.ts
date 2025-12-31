@@ -26,15 +26,9 @@ export class PortfolioTimeSeriesStoreService {
     }
 
     public updateTimeSeries(): Observable<any> {
-        return this.positionStoreService.getCurrentPortfolioValue$()
+        return this.getCurrentSnapshot$()
             .pipe(take(1))
-            .pipe(map((value: number) => {
-                const date = this.getEasternDateString();
-                return {
-                    date,
-                    value
-                } as Snapshot;
-            })).pipe(mergeMap((snapshot: Snapshot) => 
+            .pipe(mergeMap((snapshot: Snapshot) => 
                 this.timeSeriesService.addSnapshotToTimeSeries(snapshot)
             )).pipe(tap((newSnapShot: Snapshot) => {
                 const allSnapShots = this.timeSeriesQuery.getAllTimeSeriesData();
@@ -44,6 +38,17 @@ export class PortfolioTimeSeriesStoreService {
                         ...allSnapShots
                     ]
                 });
+            }));
+    }
+
+    public getCurrentSnapshot$(): Observable<Snapshot> {
+        return this.positionStoreService.getCurrentPortfolioValue$()
+            .pipe(map((value: number) => {
+                const date = this.getEasternDateString();
+                return {
+                    date,
+                    value
+                } as Snapshot;
             }));
     }
 

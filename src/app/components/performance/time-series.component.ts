@@ -9,11 +9,8 @@ import {
 	Tooltip,
   	Legend
 } from 'chart.js';
-import { combineLatest, map } from 'rxjs';
-import { MetalOptions } from 'src/app/models/metal-options';
+import { combineLatest, map, take, tap } from 'rxjs';
 import { Snapshot } from 'src/app/models/snapshot';
-import { PositionQuery } from 'src/app/queries/position.query';
-import { PricesQuery } from 'src/app/queries/prices.query';
 import { PortfolioTimeSeriesQuery } from 'src/app/queries/time-series.query';
 import { PortfolioTimeSeriesStoreService } from 'src/app/stores/services/portfolio-time-series.store.service';
 import { PositionStoreService } from 'src/app/stores/services/position.store.service';
@@ -58,29 +55,39 @@ export class TimeSeriesComponent implements OnInit, OnDestroy {
 	) { }
 
 	ngOnInit(): void {
-		this.timeSeriesStoreService.fetchAllTimeSeriesData().subscribe((snapshots: Snapshot[]) => {
-			const values = snapshots.map((snap: Snapshot) => snap.value);
-			const labels = snapshots.map((snap: Snapshot) => snap.date);
-			this.chart = new Chart(this.canvas.nativeElement, {
-				type: 'line',
-				data: {
-					labels,
-					datasets: [{
-						label: 'Portfolio Value',
-						data: values,
-						tension: 0.3,
-						borderColor: '#5865f2',
-						backgroundColor: '#5865f2',
-						pointRadius: 0,
-						borderWidth: 2
-					}]
-				},
-				options: {
-					responsive: true,
-					maintainAspectRatio: false,
+		combineLatest([this.timeSeriesStoreService.getCurrentSnapshot$(), this.timeSeriesStoreService.fetchAllTimeSeriesData()])
+			.pipe(take(1))
+			.pipe(tap(([currentSnapshot, snapshots]) => {
+				const allSnapShots = snapshots.slice();
+				allSnapShots.push(currentSnapshot);
+				const values = allSnapShots.map((snap: Snapshot) => snap.value);
+				const labels = allSnapShots.map((snap: Snapshot) => snap.date);
+				if (this.chart) {
+					this.chart.destroy();
 				}
-			});
-		});
+
+				this.chart = new Chart(this.canvas.nativeElement, {
+					type: 'line',
+					data: {
+						labels,
+						datasets: [{
+							label: 'Portfolio Value',
+							data: values,
+							tension: 0.3,
+							borderColor: '#5865f2',
+							backgroundColor: '#5865f2',
+							pointRadius: 0,
+							borderWidth: 2
+						}]
+					},
+					options: {
+						responsive: true,
+						maintainAspectRatio: false,
+					}
+				});
+			})).subscribe();
+		
+		this.timeSeriesStoreService.fetchAllTimeSeriesData().subscribe();
 	}
 
 	ngOnDestroy(): void {
