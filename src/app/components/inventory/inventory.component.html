@@ -24,8 +24,8 @@
                         <td>{{ position.acquired | date }}</td>
                         <td>{{ position.type === 0 ? 'Gold' : 'Silver' }}</td>
                         <td>{{ position.quantity | number: '1.0-2' }}</td>
-                        <td>{{ position.cost_basis | currency: 'USD': true }}</td>
-                        <td>{{ gainLossData[position.id].marketValue | currency: 'USD': true }}</td>
+                        <td>{{ position.cost_basis | currency: 'USD' }}</td>
+                        <td>{{ gainLossData[position.id].marketValue | currency: 'USD' }}</td>
                         <td 
                             *ngIf="gainLossData[position.id].gainLossValue >= 0"
                             class="positive"
