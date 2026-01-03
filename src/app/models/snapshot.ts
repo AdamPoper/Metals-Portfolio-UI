@@ -1,4 +1,4 @@
 export interface Snapshot {
-    date: string;
+    snap_date: string;
     value: number;
 }

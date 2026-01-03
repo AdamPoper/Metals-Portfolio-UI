@@ -11,8 +11,25 @@
                     negative: netDailyChange.netChangeValue < 0
                 }"
             >
-                <h3>${{ netDailyChange.netChangeValue | number: '1.2-2' }}</h3>
-                <h3>({{ netDailyChange.netChangePercent | number: '1.0-2' }}%)</h3>
+                <h3>
+                    {{ netDailyChange.netChangeValue >= 0 ? '+' : '-' }}${{ netDailyChange.netChangeValue | number: '1.2-2' }}
+                </h3>
+                <h3>
+                    ({{ netDailyChange.netChangeValue >= 0 ? '+' : '-' }}{{ netDailyChange.netChangePercent | number: '1.2-2' }}%)
+                </h3>
+            </div>
+        </div>
+        <div class="time-range">
+            <div class="options">
+                <button
+                    *ngFor="let opt of timeSeriesOptions"
+                    class="option"
+                    [attr.aria-pressed]="(selectedOption$ | async) === opt"
+                    [class.active]="(selectedOption$ | async) === opt"
+                    (click)="onSelectTimeSeries(opt)"
+                >
+                   {{ opt }}
+               </button>
             </div>
         </div>
         <div class="chart">

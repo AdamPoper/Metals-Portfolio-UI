@@ -15,7 +15,18 @@ export class TimeSeriesService {
     public fetchTimeSeriesData(): Observable<Snapshot[]> {
         return this.http.get<Snapshot[]>(
             `${this.env.apiBaseUrl}/time-series/all`
-        )
+        );
+    }
+
+    /**
+     * @param start YYYY-MM-dd
+     * @param end YYYY-MM-dd
+     * @returns Snapshots for the given date range
+     */
+    public fetchTimeSeriesByDateRange(start: string, end: string): Observable<Snapshot[]> {
+        return this.http.get<Snapshot[]>(
+            `${this.env.apiBaseUrl}/time-series/date-range?start=${start}&end=${end}`
+        );
     }
 
     public addSnapshotToTimeSeries(snap: Snapshot): Observable<any> {
