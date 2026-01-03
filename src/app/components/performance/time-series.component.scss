@@ -18,6 +18,8 @@
             flex-direction: row;
             h3 {
                 margin: 0.25rem;
+                display: flex;
+                flex-direction: row;
             }
         }
 
@@ -27,6 +29,37 @@
 
         .negative {
             color: rgb(225, 0, 0);
+        }
+    }
+
+    .time-range {
+        .options {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+
+            .option {
+                padding: 0.35rem 0.6rem;
+                border: 1px solid #ccc;
+                background: transparent;
+                border-radius: 4px;
+                cursor: pointer;
+                font-weight: 600;
+                color: var(--text-color);
+                transition: background-color 120ms ease, color 120ms ease, border-color 120ms ease;
+            }
+
+            .option.active,
+            .option[aria-pressed="true"] {
+                background-color: #5865f2;
+                color: #fff;
+                border-color: #5865f2;
+            }
+
+            .option:focus {
+                outline: 2px solid rgba(88,101,242,0.25);
+                outline-offset: 2px;
+            }
         }
     }
 

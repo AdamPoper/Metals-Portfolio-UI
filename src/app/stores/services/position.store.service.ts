@@ -59,8 +59,8 @@ export class PositionStoreService {
             this.pricesQuery.goldPrice$,
             this.pricesQuery.silverPrice$
         ]).pipe(
-            map(([positions, goldPrice, silverPrice]) =>
-                positions.reduce((total, position) => {
+            map(([positions, goldPrice, silverPrice]) => {
+                return positions.reduce((total, position) => {
                     const price =
                         position.type === MetalOptions.GOLD
                             ? goldPrice
@@ -68,7 +68,7 @@ export class PositionStoreService {
 
                     return total + position.quantity * price;
                 }, 0)
-            )
+            })
         );
     }
 }
