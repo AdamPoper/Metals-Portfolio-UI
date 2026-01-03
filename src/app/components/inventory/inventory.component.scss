@@ -75,13 +75,20 @@
     font-size: 0.85rem;
 }
 
-/* Caption / title */
-.inventory-table caption {
-    caption-side: top;
+/* Totals row: slightly darker than the regular rows and bold */
+.inventory-table table tfoot tr.totals-row {
+    background: #eef6ff; /* a touch darker than even rows */
+}
+
+/* ensure numeric alignment for totals cells */
+.inventory-table table tfoot td.numeric {
     text-align: left;
-    padding: 0.5rem 1rem;
-    font-weight: 600;
-    color: #0f1724;
+    font-variant-numeric: tabular-nums;
+}
+
+/* keep hover behaviour off totals row */
+.inventory-table table tfoot tr.totals-row:hover {
+    background: #eef6ff;
 }
 
 /* Responsive behaviour: collapse to more usable width on small screens */

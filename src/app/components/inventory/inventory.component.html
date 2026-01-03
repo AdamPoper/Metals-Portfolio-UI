@@ -49,6 +49,32 @@
                         </td>
                     </tr>
                 </tbody>
+                <tfoot *ngIf="totals$ | async as totals">
+                    <tr class="totals-row">
+                        <td colspan="4">Totals</td>
+                        <td class="numeric">
+                            {{ totals.marketValue | currency: 'USD' }}
+                        </td>
+                        <td 
+                            class="numeric"
+                            [ngClass]="{ 
+                                'positive': totals.gainLossValue >= 0,
+                                'negative': totals.gainLossValue < 0
+                            }">
+                            <ng-container *ngIf="totals.gainLossValue >= 0; else negTotal">${{ totals.gainLossValue | number: '1.2-2' }}</ng-container>
+                            <ng-template #negTotal>$({{ (totals.gainLossValue * -1) | number: '1.2-2' }})</ng-template>
+                        </td>
+                        <td
+                            class="numeric"
+                            [ngClass]="{ 
+                                'positive': totals.gainLossValue >= 0,
+                                'negative': totals.gainLossValue < 0 
+                            }"
+                        >
+                            {{ totals.gainLossPercent | number: '1.0-2' }}%
+                        </td>
+                    </tr>
+                </tfoot>
             </table>
         </div>
     </div>

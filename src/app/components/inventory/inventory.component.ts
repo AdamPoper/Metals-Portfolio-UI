@@ -3,6 +3,7 @@ import { PositionQuery } from 'src/app/queries/position.query';
 import { ModalComponent } from '../modal/modal.component';
 import { PositionStoreService } from 'src/app/stores/services/position.store.service';
 import { FormBuilder, Validators } from '@angular/forms';
+import { combineLatest, map, Observable } from 'rxjs';
 
 @Component({
 	selector: 'app-inventory',
@@ -23,6 +24,22 @@ export class InventoryComponent implements OnInit {
 	});
 
 	gainLossData$ = this.positionStoreService.calculateGainLoss$();
+
+	totals$: Observable<{ marketValue: number; gainLossValue: number; gainLossPercent: number }> = 
+		combineLatest([this.positions$, this.gainLossData$])
+		.pipe(map(([positions, gainLossData]) => {
+			const totalCostBasis = positions.reduce((acc, p) => acc + (Number(p.cost_basis) || 0), 0);
+                const marketValue = positions.reduce((acc, p) => {
+                    const d = gainLossData?.[p.id];
+                    return acc + (Number(d?.marketValue) || 0);
+                }, 0);
+                const gainLossValue = positions.reduce((acc, p) => {
+                    const d = gainLossData?.[p.id];
+                    return acc + (Number(d?.gainLossValue) || 0);
+                }, 0);
+                const gainLossPercent = totalCostBasis ? (gainLossValue / totalCostBasis * 100) : 0;
+                return { marketValue, gainLossValue, gainLossPercent };
+		}));
 
 	constructor(private positionStoreService: PositionStoreService,
 				private positionQuery: PositionQuery,
