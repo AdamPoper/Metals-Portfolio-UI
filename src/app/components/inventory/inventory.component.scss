@@ -78,6 +78,9 @@
 /* Totals row: slightly darker than the regular rows and bold */
 .inventory-table table tfoot tr.totals-row {
     background: #eef6ff; /* a touch darker than even rows */
+    td {
+        padding: 0.85rem;
+    }
 }
 
 /* ensure numeric alignment for totals cells */
