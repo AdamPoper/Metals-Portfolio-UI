@@ -8,7 +8,7 @@ import { ApiService } from "src/app/rest-services/api.service";
 @Injectable({ providedIn: "root" })
 export class PricesStoreService {
     constructor(private pricesStore: PricesStore,
-                private apiService: ApiTestService
+                private apiService: ApiService
     ) { }
 
     public fetchCurrentPrices(): Observable<SpotPrices> {

@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
 
 		setInterval(() => {
 			this.pricesStoreService.fetchCurrentPrices().subscribe();
-		}, 60000);
+		}, 24 * 60 * 60 * 1000); // only run this once oer day
 
 		setInterval(() => {
 			this.timeSeriesStoreService.updateTimeSeries().subscribe();
