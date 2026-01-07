@@ -12,10 +12,10 @@
                 }"
             >
                 <h3>
-                    {{ netDailyChange.netChangeValue >= 0 ? '+' : '-' }}${{ netDailyChange.netChangeValue | number: '1.2-2' }}
+                    {{ netDailyChange.netChangeValue >= 0 ? '+' : '-' }}${{ netDailyChange.netChangeValue < 0 ? (netDailyChange.netChangeValue * -1 | number: '1.2-2') : (netDailyChange.netChangeValue | number: '1.2-2') }}
                 </h3>
                 <h3>
-                    ({{ netDailyChange.netChangeValue >= 0 ? '+' : '-' }}{{ netDailyChange.netChangePercent | number: '1.2-2' }}%)
+                    ({{ netDailyChange.netChangeValue >= 0 ? '+' : '-' }}{{ netDailyChange.netChangePercent < 0 ? (netDailyChange.netChangePercent * -1 | number: '1.2-2') : (netDailyChange.netChangePercent | number: '1.2-2') }}%)
                 </h3>
             </div>
         </div>
