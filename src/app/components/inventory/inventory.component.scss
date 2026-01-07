@@ -9,7 +9,7 @@
 
     /* Table container keeps overflow controlled on small screens */
     .inventory-table {
-        width: 50vw;           /* roughly half of the screen width */
+        width: 60vw;           /* roughly half of the screen width */
         max-width: 900px;      /* don't grow too large on wide screens */
         min-width: 320px;      /* keep usable on narrow viewports */
         overflow: hidden;
