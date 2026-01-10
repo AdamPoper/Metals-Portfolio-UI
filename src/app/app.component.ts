@@ -3,6 +3,7 @@ import { OnInit } from '@angular/core';
 import { PricesStoreService } from './stores/services/prices.store.service';
 import { PricesQuery } from './queries/prices.query';
 import { PortfolioTimeSeriesStoreService } from './stores/services/portfolio-time-series.store.service';
+import { switchMap } from 'rxjs';
 
 @Component({
 	selector: 'app-root',
@@ -23,11 +24,9 @@ export class AppComponent implements OnInit {
 		this.pricesStoreService.fetchCurrentPrices().subscribe();
 
 		setInterval(() => {
-			this.pricesStoreService.fetchCurrentPrices().subscribe();
-		}, 24 * 60 * 60 * 1000); // only run this once oer day
-
-		setInterval(() => {
-			this.timeSeriesStoreService.updateTimeSeries().subscribe();
+			this.pricesStoreService.fetchCurrentPrices()
+				.pipe(switchMap(() => this.timeSeriesStoreService.updateTimeSeries()))
+				.subscribe();
 		}, 24 * 60 * 60 * 1000); // only run this once per day
 	}
 }
