@@ -25,8 +25,23 @@ export class PortfolioTimeSeriesQuery extends Query<TimeSeriesState> {
         return [];
     }));
 
-    readonly latestSnapshot$ = this.selectedTimeSeriesSnapshots$
-        .pipe(map((snapshots: Snapshot[]) => snapshots[snapshots.length - 1]));
+    readonly netDailyChange$ = this.selectedTimeSeriesSnapshots$
+        .pipe(map((snapshots: Snapshot[]) => {
+            if (snapshots.length < 2) {
+                return {
+                    netChangeValue: 0,
+                    netChangePercent: 0
+                };
+            }
+            const latestSnapshot = snapshots[snapshots.length - 1];
+            const previousSnapshot = snapshots[snapshots.length - 2];
+            const netChangeValue = latestSnapshot.value - previousSnapshot.value;
+            const netChangePercent = netChangeValue / previousSnapshot.value * 100;
+            return {
+                netChangeValue,
+                netChangePercent
+            };
+        }));
 
     constructor(protected override store: PortfolioTimeSeriesStore) {
         super(store);

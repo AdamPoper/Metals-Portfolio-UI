@@ -9,7 +9,6 @@ import {
 	Tooltip,
   	Legend
 } from 'chart.js';
-import { combineLatest, map } from 'rxjs';
 import { Snapshot } from 'src/app/models/snapshot';
 import { TimeSeries, TimeSeriesOptions } from 'src/app/models/time-series-options';
 import { PortfolioTimeSeriesQuery } from 'src/app/queries/time-series.query';
@@ -42,15 +41,7 @@ export class TimeSeriesComponent implements OnInit, OnDestroy {
 
 	readonly loading$ = this.timeSeriesQuery.loading$;
 
-	readonly netDailyChange$ = combineLatest([this.timeSeriesQuery.latestSnapshot$, this.currentPortfolioValue$])
-		.pipe(map(([snapshot, currentValue]) => {
-			const netChangeValue = currentValue - snapshot.value;
-			const netChangePercent = netChangeValue / snapshot.value * 100;
-			return {
-				netChangeValue,
-				netChangePercent
-			}
-		}));
+	readonly netDailyChange$ = this.timeSeriesQuery.netDailyChange$;
 
 	readonly selectedOption$ = this.timeSeriesQuery.selectedTimeSeriesOption$;
 
