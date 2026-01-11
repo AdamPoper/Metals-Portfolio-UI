@@ -78,39 +78,4 @@
     <div class="mobile">
         <app-mobile-inventory></app-mobile-inventory>
     </div>
-    <!-- <div>
-        <app-modal #addPositionModal>
-            <h2>Add New Position</h2>
-            <form [formGroup]="form" (ngSubmit)="submitNewPosition()">
-                <div class="element-group">
-                    <label for="type">Metal Type:</label>
-                    <select formControlName="type" required>
-                        <option value="0">Gold</option>
-                        <option value="1">Silver</option>
-                    </select>
-                </div>
-                <div class="element-group">
-                    <label for="quantity">Quantity (oz):</label>
-                    <input type="number" formControlName="quantity" required>
-                </div>
-                <div class="element-group">
-                    <label for="cost_basis">Cost Basis:</label>
-                    <input type="number" formControlName="cost_basis" required>
-                </div>
-                <div class="element-group">
-                    <label for="acquired">Date Acquired:</label>
-                    <input type="date" formControlName="acquired" required>
-                </div>
-                <button 
-                    type="submit" 
-                    [ngStyle]="{
-                        'cursor': form.valid ? 'pointer' : 'not-allowed'
-                    }" 
-                    [disabled]="form.invalid"
-                >
-                    Add Position
-                </button>
-            </form>
-        </app-modal>
-    </div> -->
 </ng-container>

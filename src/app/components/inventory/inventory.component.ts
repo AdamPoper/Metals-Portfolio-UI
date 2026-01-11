@@ -11,16 +11,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 })
 export class InventoryComponent implements OnInit {
 
-	@ViewChild('addPositionModal') modal?: ModalComponent;
-
 	readonly positions$ = this.positionQuery.positions$;
-
-	form = this.formBuilder.group({
-		type: [1, Validators.required],
-		quantity: [0, [Validators.required, Validators.min(0.01)]],
-		cost_basis: [0, [Validators.required, Validators.min(0)]],
-		acquired: ['', Validators.required]
-	});
 
 	gainLossData$ = this.positionStoreService.calculateGainLoss$();
 
@@ -28,7 +19,6 @@ export class InventoryComponent implements OnInit {
 
 	constructor(private positionStoreService: PositionStoreService,
 				private positionQuery: PositionQuery,
-				private formBuilder: FormBuilder,
 	) { }
 
 	ngOnInit(): void {
@@ -37,22 +27,5 @@ export class InventoryComponent implements OnInit {
 		setInterval(() => {
 			this.gainLossData$ = this.positionStoreService.calculateGainLoss$();
 		}, 60000);
-	}
-
-	openAddPositionModal() {
-		if (this.modal) {
-			this.modal.openModal();
-		}
-	}
-
-	submitNewPosition(): void {
-		if (this.form.valid) {
-			this.positionStoreService.addPosition(this.form.value).subscribe(() => {
-				this.form.reset();
-				if (this.modal) {
-					this.modal.closeModal();
-				}
-			});
-		}
 	}
 }

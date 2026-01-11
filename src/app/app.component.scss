@@ -17,7 +17,6 @@
         align-items: center;
 
         .item {
-            // background: var(--card-bg, #ffffff);
             border: 1px solid var(--text-color);
             border-radius: 10px;
             padding: 0.5rem 0.5rem;
@@ -54,14 +53,12 @@
     @media screen and (max-width: 768px) {
         .spot-prices-container {
             flex-direction: row; /* keep items in a row on mobile */
-            // flex-wrap: wrap;     /* allow wrapping if viewport is narrow */
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
             margin-top: 1rem;
 
             .item {
-                // width: auto;
                 max-width: 220px; /* limit width so multiple can fit */
                 padding: 0.5rem 0.5rem;
             }
