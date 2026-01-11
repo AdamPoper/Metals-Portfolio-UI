@@ -1,3 +1,4 @@
+@import '../../../styles/variables.scss';
 .container {
     width: 100%;
     display: flex;
@@ -7,7 +8,7 @@
 
     .portfolio-value {
         margin: 1rem 0;
-        width: 50%;
+        width: 60vw;
 
         h1 {
             font-size: 48px;
@@ -36,7 +37,6 @@
         .options {
             display: flex;
             gap: 0.5rem;
-            flex-wrap: wrap;
 
             .option {
                 padding: 0.35rem 0.6rem;
@@ -61,10 +61,43 @@
                 outline-offset: 2px;
             }
         }
+
+        @media screen and (max-width: $mobile-view-width) {
+            .options {
+                gap: 1.25rem;
+            }
+        }
     }
 
     .chart {
         width: 60vw;
         height: 50vh;
+    }
+
+    @media screen and (max-width: 1600px) {
+        .chart {
+            width: 95vw;
+        }
+        
+        .portfolio-value {
+            width: 95vw;
+        }
+    }
+
+    @media screen and (max-width: $mobile-view-width) {
+        .portfolio-value {
+            width: 90vw; /* narrower on small screens */
+
+            h1 {
+                font-size: 32px; /* reduce headline size */
+            }
+
+            .net-change {
+                h3 {
+                    font-size: 0.95rem; /* slightly smaller change text */
+                    margin: 0.15rem;
+                }
+            }
+        }
     }
 }
