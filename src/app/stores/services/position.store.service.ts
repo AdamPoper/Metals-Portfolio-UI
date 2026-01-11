@@ -71,4 +71,21 @@ export class PositionStoreService {
             })
         );
     }
+
+    public calculatePositionTotals$(): Observable<{costBasis: number; marketValue: number, gainLossValue: number; gainLossPercent: number}> {
+        return combineLatest([
+            this.positionQuery.positions$,
+            this.pricesQuery.spotPrices$
+        ]).pipe(map(([positions, spotPrices]) => {
+            const costBasis = positions.reduce((acc, p) => acc + (Number(p.cost_basis) || 0), 0);
+            const marketValue = positions.reduce((acc, p) => {
+                const currentPrice = p.type === 0 ? spotPrices.gold : spotPrices.silver;
+                return acc + (currentPrice * p.quantity);
+            }, 0);
+            const gainLossValue = marketValue - costBasis;
+            const gainLossPercent = costBasis ? (gainLossValue / costBasis * 100) : 0;
+
+            return { costBasis, marketValue, gainLossValue, gainLossPercent };
+        }));
+    }
 }

@@ -1,0 +1,54 @@
+<div class="mobile-inventory">
+    <div class="card gold" *ngIf="goldSummary$ | async as gold">
+        <div class="card-header">
+            <h3>Gold</h3>
+        </div>
+        <div class="card-body">
+            <div class="row"><span class="label">Quantity (oz)</span><span class="std-value-text">{{ gold.quantity | number: '1.2-2' }}</span></div>
+            <div class="row"><span class="label">Current Value</span><span class="std-value-text">{{ gold.marketValue | currency: 'USD' }}</span></div>
+            <div class="row"><span class="label">Cost Basis</span><span class="std-value-text">{{ gold.costBasis | currency: 'USD' }}</span></div>
+            <div class="row"><span class="label">Unrealized P/L</span>
+                <span class="value" [ngClass]="{ 'positive': gold.gainLossValue >= 0, 'negative': gold.gainLossValue < 0 }">
+                    <ng-container *ngIf="gold.gainLossValue >= 0">{{ '$' + (gold.gainLossValue | number: '1.2-2') }}</ng-container>
+                    <ng-container *ngIf="gold.gainLossValue < 0">{{ '($' + ((gold.gainLossValue * -1) | number: '1.2-2') + ')' }}</ng-container>
+                </span>
+            </div>
+            <div class="row"><span class="label">Unrealized P/L (%)</span><span class="value" [ngClass]="{ 'positive': gold.gainLossPercent >= 0, 'negative': gold.gainLossPercent < 0 }">{{ gold.gainLossPercent | number: '1.2-2' }}%</span></div>
+        </div>
+    </div>
+
+    <div class="card silver" *ngIf="silverSummary$ | async as silver">
+        <div class="card-header">
+            <h3>Silver</h3>
+        </div>
+        <div class="card-body">
+            <div class="row"><span class="label">Quantity (oz)</span><span class="std-value-text">{{ silver.quantity | number: '1.2-2' }}</span></div>
+            <div class="row"><span class="label">Current Value</span><span class="std-value-text">{{ silver.marketValue | currency: 'USD' }}</span></div>
+            <div class="row"><span class="label">Cost Basis</span><span class="std-value-text">{{ silver.costBasis | currency: 'USD' }}</span></div>
+            <div class="row"><span class="label">Unrealized P/L</span>
+                <span class="value" [ngClass]="{ 'positive': silver.gainLossValue >= 0, 'negative': silver.gainLossValue < 0 }">
+                    <ng-container *ngIf="silver.gainLossValue >= 0">{{ '$' + (silver.gainLossValue | number: '1.2-2') }}</ng-container>
+                    <ng-container *ngIf="silver.gainLossValue < 0">{{ '($' + ((silver.gainLossValue * -1) | number: '1.2-2') + ')' }}</ng-container>
+                </span>
+            </div>
+            <div class="row"><span class="label">Unrealized P/L (%)</span><span class="value" [ngClass]="{ 'positive': silver.gainLossPercent >= 0, 'negative': silver.gainLossPercent < 0 }">{{ silver.gainLossPercent | number: '1.2-2' }}%</span></div>
+        </div>
+    </div>
+
+    <div class="card totals" *ngIf="totals$ | async as totals">
+        <div class="card-header">
+            <h3>Portfolio Totals</h3>
+        </div>
+        <div class="card-body">
+            <div class="row"><span class="label">Total Value</span><span class="std-value-text">{{ totals.marketValue | currency: 'USD' }}</span></div>
+            <div class="row"><span class="label">Total Cost Basis</span><span class="std-value-text">{{ totals.costBasis | currency: 'USD' }}</span></div>
+            <div class="row"><span class="label">Total Unrealized P/L</span>
+                <span class="value" [ngClass]="{ 'positive': totals.gainLossValue >= 0, 'negative': totals.gainLossValue < 0 }">
+                    <ng-container *ngIf="totals.gainLossValue >= 0">{{ '$' + (totals.gainLossValue | number: '1.2-2') }}</ng-container>
+                    <ng-container *ngIf="totals.gainLossValue < 0">{{ '($' + ((totals.gainLossValue * -1) | number: '1.2-2') + ')' }}</ng-container>
+                </span>
+            </div>
+            <div class="row"><span class="label">Total Unrealized P/L (%)</span><span class="value" [ngClass]="{ 'positive': totals.gainLossPercent >= 0, 'negative': totals.gainLossPercent < 0 }">{{ totals.gainLossPercent | number: '1.2-2' }}%</span></div>
+        </div>
+    </div>
+</div>

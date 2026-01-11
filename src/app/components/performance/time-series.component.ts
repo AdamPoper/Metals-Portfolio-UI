@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Host, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
 	Chart, 
 	LineController,
@@ -51,7 +51,7 @@ export class TimeSeriesComponent implements OnInit, OnDestroy {
 	) { }
 
 	ngOnInit(): void {
-		this.timeSeriesOptions = Object.values(TimeSeriesOptions);
+		this.timeSeriesOptions = this.getTimeSeriesOptions();
 
 		this.timeSeriesQuery.selectedTimeSeriesSnapshots$
 			.subscribe((snapshots: Snapshot[]) => {
@@ -62,8 +62,13 @@ export class TimeSeriesComponent implements OnInit, OnDestroy {
 			});
 		
 		this.timeSeriesStoreService.getTimeSeriesDataByDateRange(
-			TimeSeriesOptions.FIVE_YEAR
+			this.timeSeriesQuery.getSelectedTimeSeriesOption()
 		).subscribe();
+	}
+
+	@HostListener('window:resize', ['$event'])
+	onResize(event: any): void {
+		this.timeSeriesOptions = this.getTimeSeriesOptions();
 	}
 
 	onSelectTimeSeries(option: TimeSeries): void {
@@ -136,6 +141,20 @@ export class TimeSeriesComponent implements OnInit, OnDestroy {
   			}
 		};
 		Chart.register(verticalLinePlugin);
+	}
+
+	getTimeSeriesOptions(): TimeSeries[] {
+		const isMobile = window.matchMedia("(max-width: 768px)").matches;
+		if (isMobile) {
+			return [
+				TimeSeriesOptions.THREE_MONTH,
+				TimeSeriesOptions.SIX_MONTH,
+				TimeSeriesOptions.ONE_YEAR,
+				TimeSeriesOptions.FIVE_YEAR
+			];
+		} else {
+			return Object.values(TimeSeriesOptions);
+		}
 	}
 
 	ngOnDestroy(): void {

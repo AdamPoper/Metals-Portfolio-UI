@@ -8,13 +8,17 @@ import { InventoryComponent } from './components/inventory/inventory.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TimeSeriesComponent } from './components/performance/time-series.component';
+import { MobileInventoryComponent } from './components/inventory/mobile-inventory/mobile-inventory.component';
+import { ActionsBarComponent } from './components/inventory/actions-bar/actions-bar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     InventoryComponent,
     ModalComponent,
-    TimeSeriesComponent
+    TimeSeriesComponent,
+    MobileInventoryComponent,
+    ActionsBarComponent
   ],
   imports: [
     BrowserModule,

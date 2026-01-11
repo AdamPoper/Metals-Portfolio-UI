@@ -1,0 +1,74 @@
+.mobile-inventory {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0.5rem;
+}
+
+.card {
+    width: 90vw;
+    background: var(--card-bg, #ffffff);
+    border: 1px solid rgba(15, 23, 36, 0.06);
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(20, 30, 40, 0.04);
+    overflow: hidden;
+
+    .card-header {
+        padding: 0.6rem 0.75rem;
+        border-bottom: 1px solid rgba(15,23,36,0.03);
+
+        h3 {
+            color: var(--text-color-card);
+            margin: 0;
+            font-size: 1rem;
+        }
+    }
+
+    .card-body {
+        padding: 0.6rem 0.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.45rem;
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .label {
+                color: var(--muted-text, #64748b);
+                font-size: 0.9rem;
+            }
+
+            .std-value-text {
+                color: var(--muted-text, #64748b);
+                font-size: 0.95rem;
+            }
+
+            .value {
+                font-weight: 700;
+                font-size: 0.95rem;
+            }
+        }
+    }
+}
+
+.card.gold {
+    border-left: 4px solid #fbbf24;
+}
+
+.card.silver {
+    border-left: 4px solid #9ca3af;
+}
+
+.card.totals {
+    border-left: 4px solid #5865f2;
+}
+
+.positive {
+    color: var(--positive-green);
+}
+
+.negative {
+    color: var(--negative-red);
+}

@@ -11,7 +11,7 @@ export interface TimeSeriesState {
 function createInitialState() {
     return {
         dateRangeSnapshots: {},
-        selectedTimeSeries: TimeSeriesOptions.FIVE_YEAR
+        selectedTimeSeries: TimeSeriesOptions.THREE_MONTH
     } as TimeSeriesState;
 }
 
