@@ -27,6 +27,6 @@ export class AppComponent implements OnInit {
 			this.pricesStoreService.fetchCurrentPrices()
 				.pipe(switchMap(() => this.timeSeriesStoreService.updateTimeSeries()))
 				.subscribe();
-		}, 24 * 60 * 60 * 1000); // only run this once per day
+		}, 24 * 60 * 60 * 1000 / 30); // run this 30 times per day
 	}
 }
