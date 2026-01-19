@@ -1,8 +1,7 @@
 <ng-container>
     <div class="container">
         <div *ngIf="(loading$ | async) === false" class="portfolio-value">
-            <h2>Current Portfolio Value</h2>
-            <h1>${{ currentPortfolioValue$ | async | number: '1.0-2' }}</h1>
+            <h1>${{ currentPortfolioValue$ | async | number: '1.2-2' }}</h1>
             <div 
                 *ngIf="netDailyChange$ | async as netDailyChange"
                 class="net-change"

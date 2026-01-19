@@ -25,8 +25,8 @@ export class AppComponent implements OnInit {
 
 		setInterval(() => {
 			this.pricesStoreService.fetchCurrentPrices()
-				.pipe(switchMap(() => this.timeSeriesStoreService.updateTimeSeries()))
+				.pipe(switchMap(() => this.timeSeriesStoreService.refreshAllCachedTimeSeriesData()))
 				.subscribe();
-		}, 24 * 60 * 60 * 1000 / 30); // run this 30 times per day
+		}, 60000); // every minute prob change this
 	}
 }

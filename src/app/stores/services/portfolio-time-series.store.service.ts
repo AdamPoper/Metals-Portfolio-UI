@@ -1,4 +1,4 @@
-import { map, mergeMap, Observable, take, tap } from "rxjs";
+import { forkJoin, map, mergeMap, Observable, of, take, tap } from "rxjs";
 import { Snapshot } from "src/app/models/snapshot";
 import { TimeSeriesService } from "src/app/rest-services/time-series.service";
 import { PortfolioTimeSeriesStore } from "../portfolio-time-series.store";
@@ -21,38 +21,6 @@ export class PortfolioTimeSeriesStoreService {
                 private timeSeriesQuery: PortfolioTimeSeriesQuery,
                 private positionStoreService: PositionStoreService
     ) {}
-
-    public fetchAllTimeSeriesData(): Observable<Snapshot[]> {
-        return this.timeSeriesService.fetchTimeSeriesData()
-            .pipe(setLoading(this.timeSeriesStore))
-            .pipe(tap((snapshots: Snapshot[]) => {
-                this.timeSeriesStore.update({
-                    selectedTimeSeries: TimeSeriesOptions.ALL
-                });
-                this.timeSeriesStore.addDateRangeSnapshots(TimeSeriesOptions.ALL, snapshots);
-                this.timeSeriesStore.setLoading(false);
-            }));
-    }
-
-    public updateTimeSeries(): Observable<any> {
-        return this.getCurrentSnapshot$()
-            .pipe(take(1))
-            .pipe(mergeMap((snapshot: Snapshot) => 
-                this.timeSeriesService.addSnapshotToTimeSeries(snapshot)
-            )).pipe(tap((newSnapShot: Snapshot) => {
-                for (const timeSeries of Object.values(TimeSeriesOptions)) {
-                    if (this.timeSeriesQuery.hasTimeSeriesData(timeSeries)) {
-                        this.timeSeriesStore.addDateRangeSnapshots(
-                            timeSeries, 
-                            [
-                                ...this.timeSeriesQuery.getSelectedTimeSeries(),
-                                newSnapShot
-                            ]
-                        )
-                    }
-                }
-            }));
-    }
 
     public getTimeSeriesDataByDateRange(timeSeries: TimeSeries): Observable<Snapshot[]> {
         const {start, end} = this.getStartAndEndDates(timeSeries);
@@ -83,6 +51,19 @@ export class PortfolioTimeSeriesStoreService {
                     value
                 } as Snapshot;
             }));
+    }
+
+    public refreshAllCachedTimeSeriesData(): Observable<any> {
+        const allCachedTimeSeries = this.timeSeriesQuery.getDateRangeSnapshots();
+        if (Object.entries(allCachedTimeSeries).length === 0) {
+            return of([]);
+        }
+
+        const cachedKeys = Object.keys(allCachedTimeSeries) as TimeSeries[];
+        const dataToRefresh = cachedKeys.map((key: TimeSeries) => {
+            return this.getTimeSeriesDataByDateRange(key);
+        });
+        return forkJoin(dataToRefresh);
     }
 
     private getEasternDateString(date: Date): string {
