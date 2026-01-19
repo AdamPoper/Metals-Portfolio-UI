@@ -1,6 +1,7 @@
 import { Query } from "@datorama/akita";
-import { PricesState, PricesStore, SpotPrices } from "../stores/prices.store";
+import { PricesState, PricesStore } from "../stores/prices.store";
 import { Injectable } from "@angular/core";
+import { SpotPrices } from "../models/spot-prices";
 import { combineLatest, map } from "rxjs";
 
 @Injectable({ providedIn: "root" })

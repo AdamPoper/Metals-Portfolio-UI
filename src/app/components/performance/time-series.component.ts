@@ -1,4 +1,4 @@
-import { Component, ElementRef, Host, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
 	Chart, 
 	LineController,
@@ -100,6 +100,12 @@ export class TimeSeriesComponent implements OnInit, OnDestroy {
 						plugins: {
 							tooltip: {
 								enabled: true,
+								callbacks: {
+									label: (context) => {
+										const value = context.parsed.y;
+										return `$${value.toFixed(2)}`;
+									}
+								}
 							}
 						},
 						interaction: {
