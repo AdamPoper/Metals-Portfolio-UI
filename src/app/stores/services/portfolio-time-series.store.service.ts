@@ -1,4 +1,4 @@
-import { forkJoin, map, mergeMap, Observable, of, take, tap } from "rxjs";
+import { forkJoin, map, Observable, of, tap } from "rxjs";
 import { Snapshot } from "src/app/models/snapshot";
 import { TimeSeriesService } from "src/app/rest-services/time-series.service";
 import { PortfolioTimeSeriesStore } from "../portfolio-time-series.store";
