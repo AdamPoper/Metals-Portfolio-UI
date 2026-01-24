@@ -1,8 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PositionQuery } from 'src/app/queries/position.query';
-import { ModalComponent } from '../modal/modal.component';
 import { PositionStoreService } from 'src/app/stores/services/position.store.service';
-import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
 	selector: 'app-inventory',
