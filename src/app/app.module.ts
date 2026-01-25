@@ -11,6 +11,7 @@ import { TimeSeriesComponent } from './components/performance/time-series.compon
 import { MobileInventoryComponent } from './components/inventory/mobile-inventory/mobile-inventory.component';
 import { ActionsBarComponent } from './components/inventory/actions-bar/actions-bar.component';
 import { AuthInterceptor } from './interceptors/auth-interceptor';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { AuthInterceptor } from './interceptors/auth-interceptor';
     ModalComponent,
     TimeSeriesComponent,
     MobileInventoryComponent,
-    ActionsBarComponent
+    ActionsBarComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

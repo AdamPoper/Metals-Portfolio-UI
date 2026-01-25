@@ -1,24 +1,30 @@
 <ng-container>
   	<div class="app-container">
-		<div class="spot-prices-container">
-			<div class="item" *ngIf="goldPrice$ | async as goldPrice">
-				<div class="item-child">
-					<h2>Gold</h2>
-					<p>${{ goldPrice | number:'1.2-2' }}/oz</p>
+		<app-login 
+			*ngIf="!isAuthenticated else authenticated"
+			(loginEvent)="onLoginEvent()"
+		></app-login>
+		<ng-template #authenticated>
+			<div class="spot-prices-container">
+				<div class="item" *ngIf="goldPrice$ | async as goldPrice">
+					<div class="item-child">
+						<h2>Gold</h2>
+						<p>${{ goldPrice | number:'1.2-2' }}/oz</p>
+					</div>
+				</div>
+				<div class="item" *ngIf="silverPrice$ | async as silverPrice">
+					<div class="item-child">
+						<h2>Silver</h2>
+						<p>${{ silverPrice | number:'1.2-2' }}/oz</p>
+					</div>
 				</div>
 			</div>
-			<div class="item" *ngIf="silverPrice$ | async as silverPrice">
-				<div class="item-child">
-					<h2>Silver</h2>
-					<p>${{ silverPrice | number:'1.2-2' }}/oz</p>
-				</div>
+			<div class="time-series">
+				<app-time-series></app-time-series>
 			</div>
-		</div>
-		<div class="time-series">
-			<app-time-series></app-time-series>
-		</div>
-		<div>
-			<app-inventory></app-inventory>
-		</div>
+			<div>
+				<app-inventory></app-inventory>
+			</div>
+		</ng-template>
   	</div>
 </ng-container>

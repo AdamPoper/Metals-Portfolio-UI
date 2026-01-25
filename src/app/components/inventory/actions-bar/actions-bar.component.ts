@@ -28,7 +28,7 @@ export class ActionsBarComponent {
 	}
 
 	submitNewPosition(): void {
-			if (this.form.valid) {
+		if (this.form.valid) {
 			this.positionStoreService.addPosition(this.form.value).subscribe(() => {
 				this.form.reset();
 				if (this.modal) {
