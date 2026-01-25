@@ -8,4 +8,8 @@ export class EnvService {
     get apiBaseUrl(): string {
         return environment.apiBaseUrl;
     }
+
+    get basicAuth(): { username: string; password: string } {
+        return environment.basicAuth;
+    }
 }

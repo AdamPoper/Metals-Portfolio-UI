@@ -54,6 +54,7 @@ export class PortfolioTimeSeriesStoreService {
     }
 
     public refreshAllCachedTimeSeriesData(): Observable<any> {
+        const selectedTimeSeriesOption = this.timeSeriesQuery.getSelectedTimeSeriesOption();
         const allCachedTimeSeries = this.timeSeriesQuery.getDateRangeSnapshots();
         if (Object.entries(allCachedTimeSeries).length === 0) {
             return of([]);
@@ -63,7 +64,8 @@ export class PortfolioTimeSeriesStoreService {
         const dataToRefresh = cachedKeys.map((key: TimeSeries) => {
             return this.getTimeSeriesDataByDateRange(key);
         });
-        return forkJoin(dataToRefresh);
+        return forkJoin(dataToRefresh)
+            .pipe(tap(() => this.timeSeriesStore.update({selectedTimeSeries: selectedTimeSeriesOption})));
     }
 
     private getEasternDateString(date: Date): string {
