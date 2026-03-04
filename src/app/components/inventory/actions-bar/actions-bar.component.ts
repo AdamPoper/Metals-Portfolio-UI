@@ -58,7 +58,6 @@ export class ActionsBarComponent {
 
 	submitLiquidationAction(): void {
 		if (this.liquidationActionForm.valid) {
-			console.log('Submitting liquidation action:', this.liquidationActionForm.value);
 			this.positionStoreService.addLiquidationAction(this.liquidationActionForm.value).subscribe(() => {
 				this.liquidationActionForm.reset();
 				if (this.liquidationModal) {
