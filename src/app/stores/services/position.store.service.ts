@@ -1,12 +1,13 @@
 import { Injectable } from "@angular/core";
 import { InventoryService } from "src/app/rest-services/inventory.service";
 import { CurrentValues, PositionStore } from "../position.store";
-import { combineLatest, map, Observable, tap } from "rxjs";
+import { combineLatest, map, mergeMap, Observable, switchMap, tap } from "rxjs";
 import { Position } from "src/app/models/position";
 import { PositionQuery } from "src/app/queries/position.query";
 import { PricesQuery } from "src/app/queries/prices.query";
 import { PortfolioTimeSeriesQuery } from "src/app/queries/time-series.query";
 import { Snapshot } from "src/app/models/snapshot";
+import { LiquidationAction } from "src/app/models/liquidation-action";
 
 @Injectable({ providedIn: 'root' })
 export class PositionStoreService {
@@ -31,6 +32,11 @@ export class PositionStoreService {
                     positions: [...state.positions, newPosition]
                 }));
             }));
+    }
+
+    public addLiquidationAction(liquidationAction: Partial<LiquidationAction>): Observable<Position[]> {
+        return this.inventoryService.addLiquidationAction(liquidationAction)
+            .pipe(switchMap(() => this.getAllPositions()));
     }
 
     public calculateGainLoss$(): Observable<Record<number, CurrentValues>> {

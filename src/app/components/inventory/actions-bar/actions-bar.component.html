@@ -1,15 +1,13 @@
 <ng-container>
     <div class="actions-bar">
-        <div (click)="openAddPositionModal()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
-                <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
-                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
-            </svg>
+        <div>
+            <i appIcon="add" (click)="openAddPositionModal()"></i>
+            <i appIcon="minus" (click)="openLiquidationActionModal()"></i>
         </div>
     </div>
     <app-modal #addPositionModal>
         <h2>Add New Position</h2>
-        <form class="add-position-form" [formGroup]="form" (ngSubmit)="submitNewPosition()">
+        <form class="add-position-form" [formGroup]="addPositionForm" (ngSubmit)="submitNewPosition()">
             <div class="element-group">
                 <label for="type">Metal Type:</label>
                 <select formControlName="type" required>
@@ -32,11 +30,45 @@
             <button 
                 type="submit" 
                 [ngStyle]="{
-                    'cursor': form.valid ? 'pointer' : 'not-allowed'
+                    'cursor': addPositionForm.valid ? 'pointer' : 'not-allowed'
                 }" 
-                [disabled]="form.invalid"
+                [disabled]="addPositionForm.invalid"
             >
                 Add Position
+            </button>
+        </form>
+    </app-modal>
+    <app-modal #liquidationActionModal>
+        <form class="liquidation-action-form" [formGroup]="liquidationActionForm" (ngSubmit)="submitLiquidationAction()">
+            <div class="element-group">
+                <label for="position_id">Position:</label>
+                <select formControlName="position_id" required>
+                    <option selected value="" disabled>Select a position</option>
+                    <option *ngFor="let position of positions$ | async" [value]="position.id">
+                        {{ position.type === 0 ? 'Gold' : 'Silver' }} - {{ position.quantity }} oz {{ position.acquired | date:'shortDate' }}
+                    </option>
+                </select>
+            </div>
+            <div class="element-group">
+                <label for="quantity_sold">Quantity Sold (oz):</label>
+                <input type="number" formControlName="quantity_sold" required>
+            </div>
+            <div class="element-group">
+                <label for="proceeds">Proceeds:</label>
+                <input type="number" formControlName="proceeds" required>
+            </div>
+            <div class="element-group">
+                <label for="sale_date">Sale Date:</label>
+                <input type="date" formControlName="sale_date" required>
+            </div>
+            <button 
+                type="submit" 
+                [ngStyle]="{
+                    'cursor': liquidationActionForm.valid ? 'pointer' : 'not-allowed'
+                }" 
+                [disabled]="liquidationActionForm.invalid"
+            >
+                Record Sale
             </button>
         </form>
     </app-modal>
