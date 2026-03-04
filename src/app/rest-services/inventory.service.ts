@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Position } from '../models/position';
 import { EnvService } from '../services/env.service';
 import { PositionStore } from '../stores/position.store';
+import { LiquidationAction } from '../models/liquidation-action';
 
 @Injectable({ providedIn: 'root' })
 export class InventoryService {
@@ -21,5 +22,10 @@ export class InventoryService {
     public addPosition(position: Partial<Position>): Observable<Position> {
         const url = `${this.env.apiBaseUrl}/positions/add`;
         return this.http.post<Position>(url, position);
+    }
+
+    public addLiquidationAction(liquidationAction: Partial<LiquidationAction>): Observable<LiquidationAction> {
+        const url = `${this.env.apiBaseUrl}/positions/liquidation-action/add`;
+        return this.http.post<LiquidationAction>(url, liquidationAction);
     }
 }

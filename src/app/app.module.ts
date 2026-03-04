@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TimeSeriesComponent } from './components/performance/time-series.component';
 import { MobileInventoryComponent } from './components/inventory/mobile-inventory/mobile-inventory.component';
 import { ActionsBarComponent } from './components/inventory/actions-bar/actions-bar.component';
+import { AppIconDirective } from './directives/app-icon.directive';
 import { AuthInterceptor } from './interceptors/auth-interceptor';
 import { LoginComponent } from './components/login/login.component';
 
@@ -21,6 +22,7 @@ import { LoginComponent } from './components/login/login.component';
     TimeSeriesComponent,
     MobileInventoryComponent,
     ActionsBarComponent,
+    AppIconDirective,
     LoginComponent
   ],
   imports: [
